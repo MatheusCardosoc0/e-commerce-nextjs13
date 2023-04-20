@@ -3,21 +3,23 @@
 import useCounterState from "@/context/useCounterState"
 import Link from "next/link"
 
-export default function Home() {
+const CategoriesPage = () => {
 
-  const {addCounter, counter} = useCounterState()
+  const { counter, reduceCounter } = useCounterState()
 
   return (
     <div>
       {counter}
 
-      <button onClick={() => addCounter()}>
-        Aumentar
+      <button onClick={() => reduceCounter()}>
+        Reduzir
       </button>
 
-      <Link href={'/categories'}>
+      <Link href={'/'}>
         Ver outro
       </Link>
     </div>
   )
 }
+
+export default CategoriesPage
