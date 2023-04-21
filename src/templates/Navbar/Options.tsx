@@ -1,7 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
+"use client"
+
 import { IconType } from "react-icons"
 import { MdSecurity } from 'react-icons/md'
 import { AiFillHeart } from 'react-icons/ai'
 import { FaUserAlt } from 'react-icons/fa'
+import useLoginModalState from "@/context/useLoginModalState"
 
 interface NavOptionsCardProps {
   text?: string
@@ -10,37 +14,18 @@ interface NavOptionsCardProps {
   onChange?: () => void
 }
 
-const options: NavOptionsCardProps[] = [
-  {
-    text: 'Compra Segura',
-    icon: MdSecurity,
-    index: 1
-  },
-  {
-    text: 'Ajuda',
-    index: 2
-  },
-  {
-    text: 'Lista de Desejos',
-    icon: AiFillHeart,
-    index: 3
-  },
-  {
-    icon: FaUserAlt,
-    index: 4
-  }
-]
 
-const NavOptionsCard = ({
+const NavOptionsCard : React.FC<NavOptionsCardProps> = ({
   icon: Icon,
   text,
   index
-}: NavOptionsCardProps) => (
+}) => (
   <button
     className={`
       flex
       gap-2
       items-center
+      hover:text-yellow-200
       ${index > 1 && 'border-l-2 pl-4'}
     `}
   >
@@ -53,7 +38,28 @@ const NavOptionsCard = ({
   </button>
 )
 
+
 const Options = () => {
+
+  const useLogin = useLoginModalState()
+
+  const options: NavOptionsCardProps[] = [
+    {
+      text: 'Compra Segura',
+      icon: MdSecurity,
+      index: 1
+    },
+    {
+      text: 'Ajuda',
+      index: 2
+    },
+    {
+      text: 'Lista de Desejos',
+      icon: AiFillHeart,
+      index: 3
+    }
+  ]
+
   return (
     <div
       className="
@@ -80,6 +86,20 @@ const Options = () => {
             index={option.index}
           />
         ))}
+
+        <button
+          onClick={() => useLogin.onOpen()}
+        >
+          <img
+            src="https://api-private.atlassian.com/users/6b5c1609134a5887d7f3ab1b73557664/avatar"
+            alt="unknow user"
+            className="
+              w-[50px]
+              border-l-2
+              pl-4
+            "
+          />
+        </button>
       </div>
     </div>
   )

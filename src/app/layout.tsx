@@ -1,4 +1,7 @@
+import ClientOnly from '@/components/ClientOnly'
 import './globals.css'
+import LoginModal from '@/components/Modals/LoginModal'
+import Navbar from '@/templates/Navbar'
 
 export const metadata = {
   title: 'Create Next App',
@@ -13,7 +16,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <ClientOnly>
+          <LoginModal />
+          <Navbar />
+        </ClientOnly>
+        <div className='pb-20 pt-28'>
+          {children}
+        </div>
       </body>
     </html>
   )
