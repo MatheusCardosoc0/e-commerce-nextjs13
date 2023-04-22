@@ -1,6 +1,8 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
+import {MdClose} from 'react-icons/md'
+import Button from "../Inputs/Button"
 
 
 interface ModalProps {
@@ -30,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({
   }, [isOpen])
 
   const handleClose = useCallback(() => {
-    if (disabled){
+    if (disabled) {
       return
     }
 
@@ -42,38 +44,83 @@ const Modal: React.FC<ModalProps> = ({
 
 
   const handleSubmit = useCallback(() => {
-    if(disabled){
+    if (disabled) {
       return
     }
 
     onSubmit()
-  },[disabled, onSubmit])
+  }, [disabled, onSubmit])
 
-  if(!isOpen){
+  if (!isOpen) {
     return null
   }
 
   return (
-    <div>
-      <button
-        onClick={onClose}
+    <div
+      className="
+        absolute
+        left-1/2
+        top-1/2
+        -translate-y-1/2
+        -translate-x-1/2
+        bg-primary-gradient
+        p-3
+        rounded-xl
+        w-full
+        md:max-w-[600px]
+      "
+    >
+      <div
+        className="
+          p-4
+          relative
+          bg-white
+          w-full
+        "
       >
-        Fechar
-      </button>
-      <div>
-        <h2>
+        <button
+          onClick={onClose}
+          className="
+            absolute
+            top-1
+            right-1
+            p-2
+            rounded-full
+            bg-red-900
+          "
+        >
+          <MdClose
+            className="
+              text-3xl
+              text-white
+            "
+          />
+        </button>
+        <h2
+          className="
+            text-3xl
+            font-bold
+          "
+        >
           {title}
         </h2>
 
-        <div>
+        <div
+          className="
+            p-4
+          "
+        >
           {bodyContent}
         </div>
 
-        <button
+        <Button
+          text={actionLabel}
           onClick={onSubmit}
-        >
-          {actionLabel}
-        </button>
+          type="button"
+          customStyle="
+            w-full
+          "
+        />
       </div>
     </div>
   )
