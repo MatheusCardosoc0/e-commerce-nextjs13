@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import useLoginModalState from '@/context/useLoginModalState'
+import axios from 'axios'
 
 const schema = z.object({
   name:
@@ -44,8 +45,14 @@ const RegisterModal = () => {
     resolver: zodResolver(schema)
   })
 
-  function onSubmit(data: FormProps) {
-    console.log(data)
+  async function onSubmit(data: FormProps) {
+    try {
+      await axios.post('/api/register', data)
+      alert('ok')
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const replaceModal = useCallback(() => {
@@ -99,7 +106,7 @@ const RegisterModal = () => {
         label='Confirme sua senha'
         register={register}
         error={errors.confirmPassword}
-        type='confirmPassword'
+        type='password'
       />
 
       <b>

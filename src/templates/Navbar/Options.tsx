@@ -6,6 +6,8 @@ import { MdSecurity } from 'react-icons/md'
 import { AiFillHeart } from 'react-icons/ai'
 import { FaUserAlt } from 'react-icons/fa'
 import useLoginModalState from "@/context/useLoginModalState"
+import { useEffect, useState } from "react"
+import getCurrentUser from "@/functions/getCurrentUser"
 
 interface NavOptionsCardProps {
   text?: string
@@ -15,7 +17,7 @@ interface NavOptionsCardProps {
 }
 
 
-const NavOptionsCard : React.FC<NavOptionsCardProps> = ({
+const NavOptionsCard: React.FC<NavOptionsCardProps> = ({
   icon: Icon,
   text,
   index
@@ -38,8 +40,14 @@ const NavOptionsCard : React.FC<NavOptionsCardProps> = ({
   </button>
 )
 
+interface OptionsProps {
+  currentUser: boolean
+}
 
-const Options = () => {
+
+const Options: React.FC<OptionsProps> = ({
+  currentUser = false
+}) => {
 
   const useLogin = useLoginModalState()
 
@@ -89,15 +97,21 @@ const Options = () => {
 
         <button
           onClick={() => useLogin.onOpen()}
+          className="
+            border-l-2
+            pl-4
+          "
         >
           <img
             src="https://api-private.atlassian.com/users/6b5c1609134a5887d7f3ab1b73557664/avatar"
             alt="unknow user"
-            className="
+            className={`
               w-[50px]
-              border-l-2
-              pl-4
-            "
+              border-2
+              rounded-full
+              ${!currentUser && 'border-red-500'}
+              ${currentUser && 'border-green-500'}
+            `}
           />
         </button>
       </div>

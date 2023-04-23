@@ -1,7 +1,14 @@
+import { User } from "@prisma/client"
 import Options from "./Options"
 import Top from "./Top"
 
-const Navbar = () => {
+interface NavbarProps{
+  currentUser: User | null
+}
+
+const Navbar: React.FC<NavbarProps> = ({
+  currentUser
+}) => {
   return (
     <nav
       className="
@@ -11,7 +18,7 @@ const Navbar = () => {
       "
     >
       <Top />
-      <Options />
+      <Options currentUser={!!currentUser} />
     </nav>
   )
 }

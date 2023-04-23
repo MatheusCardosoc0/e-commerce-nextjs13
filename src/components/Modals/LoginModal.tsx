@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import useRegisterModalState from '@/context/useRegisterModalState'
+import { signIn } from 'next-auth/react'
 
 const schema = z.object({
   email: z.string()
@@ -35,8 +36,18 @@ const LoginModal = () => {
     resolver: zodResolver(schema)
   })
 
-  function onSubmit(data: FormProps) {
-    console.log(data)
+  async function onSubmit(data: FormProps) {
+    try {
+      await signIn('credentials', {
+        ...data,
+        redirect: false
+      })
+
+      alert('ok')
+    } catch (error) {
+      console.log(error)
+      alert('error')
+    }
   }
 
   const replaceModal = useCallback(() => {
@@ -45,7 +56,7 @@ const LoginModal = () => {
     setTimeout(() => {
       useRegister.onOpen()
     }, 300)
-  },[useLogin, useRegister])
+  }, [useLogin, useRegister])
 
   const bodyContent = (
     <div
