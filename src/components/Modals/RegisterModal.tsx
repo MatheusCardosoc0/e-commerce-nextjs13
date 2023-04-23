@@ -2,28 +2,37 @@
 
 import React, { useCallback } from 'react'
 import Modal from './Modal'
-import useLoginModalState from '@/context/useLoginModalState'
+import useRegisterModalState from '@/context/useRegisterModalState'
 import Heading from '../Heading'
 import Input from '../Inputs/Input'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import useRegisterModalState from '@/context/useRegisterModalState'
+import useLoginModalState from '@/context/useLoginModalState'
 
 const schema = z.object({
-  email: z.string()
-    .email("Dgigte um email valido"),
-  password: z.string()
-    .min(6, "A senha deve ter mais de 6 caracteres")
-
+  name:
+    z.string(),
+  email:
+    z.string()
+      .email("Dgigte um email valido"),
+  password:
+    z.string()
+      .min(6, "A senha deve ter mais de 6 caracteres"),
+  confirmPassword:
+    z.string(),
 })
+  .refine((fields) => fields.password === fields.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'As senhas precisam ser iguais.'
+  })
 
 type FormProps = z.infer<typeof schema>
 
-const LoginModal = () => {
+const RegisterModal = () => {
 
-  const useLogin = useLoginModalState()
   const useRegister = useRegisterModalState()
+  const useLogin = useLoginModalState()
 
   const {
     handleSubmit,
@@ -40,25 +49,33 @@ const LoginModal = () => {
   }
 
   const replaceModal = useCallback(() => {
-    useLogin.onClose()
+    useRegister.onClose()
 
     setTimeout(() => {
-      useRegister.onOpen()
-    }, 300)
-  },[useLogin, useRegister])
+      useLogin.onOpen()
+    }, 300);
+  }, [useRegister, useLogin])
 
   const bodyContent = (
     <div
       className='
         flex
         flex-col
-        gap-5
+        gap-2
       '
     >
       <Heading
-        title='Faça o login'
-        subtitle='Entre com sua conta já criada'
+        title='Crie sua conta'
+        subtitle='Crie uma conta para facilitar sua compra'
         isDark
+      />
+
+      <Input
+        id='name'
+        label='Nome'
+        register={register}
+        error={errors.name}
+        type='text'
       />
 
       <Input
@@ -71,14 +88,22 @@ const LoginModal = () => {
 
       <Input
         id='password'
-        label='Password'
+        label='Senha'
         register={register}
         error={errors.password}
         type='password'
       />
 
+      <Input
+        id='confirmPassword'
+        label='Confirme sua senha'
+        register={register}
+        error={errors.confirmPassword}
+        type='confirmPassword'
+      />
+
       <b>
-        Não possui uma conta?
+        Já possui uma conta?
         <button
           onClick={() => replaceModal()}
           className="
@@ -87,7 +112,7 @@ const LoginModal = () => {
             underline
           "
         >
-          Criar conta
+          Fazer Login
         </button>
       </b>
     </div>
@@ -96,14 +121,14 @@ const LoginModal = () => {
   return (
     <Modal
       actionLabel='Enviar'
-      onClose={useLogin.onClose}
+      onClose={useRegister.onClose}
       onSubmit={handleSubmit(onSubmit)}
-      title='Login'
+      title='Registre-se'
       bodyContent={bodyContent}
       disabled={false}
-      isOpen={useLogin.isOpen}
+      isOpen={useRegister.isOpen}
     />
   )
 }
 
-export default LoginModal
+export default RegisterModal

@@ -2,6 +2,7 @@ import ClientOnly from '@/components/ClientOnly'
 import './globals.css'
 import LoginModal from '@/components/Modals/LoginModal'
 import Navbar from '@/templates/Navbar'
+import RegisterModal from '@/components/Modals/RegisterModal'
 
 export const metadata = {
   title: 'Create Next App',
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body>
         <ClientOnly>
           <LoginModal />
+          <RegisterModal />
           <Navbar />
         </ClientOnly>
         <div className='pb-20 pt-28'>
