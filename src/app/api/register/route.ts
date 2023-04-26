@@ -24,6 +24,10 @@ export async function POST(req: Request) {
       email,
       hashPassword,
       name
+    },
+    select: {
+      email: true,
+      name: true
     }
   })
 

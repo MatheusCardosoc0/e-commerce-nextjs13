@@ -48,7 +48,7 @@ const RegisterModal = () => {
   async function onSubmit(data: FormProps) {
     try {
       await axios.post('/api/register', data)
-      alert('ok')
+      replaceModal()
       console.log(data)
     } catch (error) {
       console.log(error)

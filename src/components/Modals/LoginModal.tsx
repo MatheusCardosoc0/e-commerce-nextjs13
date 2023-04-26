@@ -42,8 +42,11 @@ const LoginModal = () => {
         ...data,
         redirect: false
       })
-
-      alert('ok')
+      .then(callback => {
+        if(callback?.ok){
+          window.location.reload()
+        }
+      })
     } catch (error) {
       console.log(error)
       alert('error')

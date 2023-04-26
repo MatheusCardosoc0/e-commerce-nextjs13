@@ -16,3 +16,27 @@ model User {
   email        String @unique
   hashPassword String
 }
+
+model Admin {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  name         String @unique
+  email        String @unique
+  hashPassword String
+}
+
+model Product {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  image       String
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @db.ObjectId
+}
+
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+
+  Product Product[]
+}
